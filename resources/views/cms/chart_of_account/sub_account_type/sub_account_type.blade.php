@@ -51,7 +51,7 @@
           <i class="ti-sharethis mr-2"></i> Sub Account Types</h3>
         <div class="portlet-widgets">
           @if ( $permissions == "is_admin" || in_array( 'add', $permissions ) )
-            <a href="{{route('chart_of_account.create')}}">
+            <a href="{{route('sub_account_type.create',$chart_of_account)}}">
               <button class="btn btn-white btn-custom-white btn-custom btn-rounded waves-effect" type="button">
                 <i class="fa fa-plus"></i> Add Sub Account</button>
             </a>
@@ -115,7 +115,7 @@
     var table = $('#datatable').DataTable({
       processing: true,
       serverSide: true,
-      ajax: '{{ route("chart_of_account.datatable") }}',
+      ajax: '{{ route("sub_account_type.datatable",$chart_of_account) }}',
       "columns": [
         { "data": "id", "defaultContent": "" },
         { "data": "name", "defaultContent": "" },
@@ -152,12 +152,13 @@
       {
         "targets": -1,
         "render": function (data, type, row, meta) {
-          var edit = '{{route("chart_of_account.edit",[":id"])}}';
+          var edit = '{{route("sub_account_type.edit",[":c_id",":id"])}}';
           edit = edit.replace(':id', data);
+          edit = edit.replace(':c_id', row.chart_of_account_id);
           var checked = row.status == 1 ? 'checked' : null;
           return `
           @if ( $permissions == "is_admin" || in_array( 'edit', $permissions ) )
-          <a href="` + edit + `" class="text-info p-1" data-original-title="Edit"                  title="" data-placement="top" data-toggle="tooltip">
+          <a href="` + edit + `" class="text-info p-1" data-original-title="Edit" title="" data-placement="top" data-toggle="tooltip">
               <i class="fa fa-pencil"></i>
           </a>
           @endif
@@ -167,7 +168,7 @@
           </a>
           @endif
           @if ( $permissions == "is_admin" || in_array( 'status', $permissions ) )
-          <input class="status" type="checkbox" data-plugin="switchery"                           data-color="#005CA3" data-size="small" ` + checked + ` value="` + row.id + `">
+          <input class="status" type="checkbox" data-plugin="switchery" data-color="#005CA3" data-size="small" ` + checked + ` value="` + row.id + `">
           @endif
           `;
         },
@@ -205,7 +206,7 @@
           }
 
           axios
-            .post('{{route("chart_of_account.status")}}', {
+            .post('{{route("sub_account_type.status",$chart_of_account)}}', {
               _token: '{{csrf_token()}}',
               _method: 'patch',
               id: id,
@@ -234,7 +235,7 @@
           }).then(function (result) {
             if (result.value) {
             axios
-              .post('{{route("chart_of_account.destroy")}}', {
+              .post('{{route("sub_account_type.destroy",$chart_of_account)}}', {
                 _method: 'delete',
                 _token: '{{csrf_token()}}',
                 id: deleteId,

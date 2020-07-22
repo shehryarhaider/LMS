@@ -22,7 +22,7 @@ class SubAccountTypeController extends Controller
 
         //getFrontEndPermissionsSetup used from helpers.php
         $data = getFrontEndPermissionsSetup($menu_id);
-
+        $data['chart_of_account'] =  $chart_of_account;
         return view('cms.chart_of_account.sub_account_type.sub_account_type', $data);
     }
 
@@ -35,7 +35,7 @@ class SubAccountTypeController extends Controller
     {
         // gets the selects colums only
         // $roles = SubAccountType::select(['id','name', 'status']);
-        $roles = DB::table('mf_networks')->select(['id','name', 'status']);
+        $roles = SubAccountType::where('chart_of_account_id',$chart_of_account)->select(['id','chart_of_account_id','name', 'status']);
 
         return DataTables::of($roles)->make();
     }

@@ -35,7 +35,7 @@ class ChartOfAccountController extends Controller
     {
         // gets the selects colums only
         // $roles = ChartOfAccount::select(['id','name', 'status']);
-        $roles = DB::table('mf_networks')->select(['id','name', 'status']);
+        $roles = DB::table('mt_chart_of_accounts')->select(['id','name', 'status']);
 
         return DataTables::of($roles)->make();
     }
@@ -50,7 +50,7 @@ class ChartOfAccountController extends Controller
     public function validater(Request $request, $id)
     {
         $request->validate([
-            'name' => "required|max:191|unique:mf_networks,name,{$id}"
+            'name' => "required|max:191|unique:mt_chart_of_accounts,name,{$id}"
         ]);
 
         return response()->json(['success'], 200);
@@ -79,7 +79,7 @@ class ChartOfAccountController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|max:191|unique:mf_networks,name'
+            'name' => 'required|max:191|unique:mt_chart_of_accounts,name'
         ]);
 
         ChartofAccount::create($request->except('_token'));
@@ -116,7 +116,7 @@ class ChartOfAccountController extends Controller
     public function update(Request $request,ChartOfAccount $chart_of_account)
     {
         $request->validate([
-            'name' => "required|max:191|unique:mf_networks,name,{$chart_of_account->id}"
+            'name' => "required|max:191|unique:mt_chart_of_accounts,name,{$chart_of_account->id}"
         ]);
 
         $chart_of_account->name = $request->name;

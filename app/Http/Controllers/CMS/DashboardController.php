@@ -49,4 +49,4 @@ class DashboardController extends Controller
     {
         return User::where('user_type',1)->get()->count();
     }
-}
+}   

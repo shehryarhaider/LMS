@@ -144,12 +144,11 @@ function logAction(Request $request)
         }
 
         $log = new ActionHistroy;
-
         $log->user_id = Auth::user()->id;
         $log->menu_id = $permission->menu_id;
         $log->permission_id = $permission->id;
         $log->user_name = Auth::user()->name;
-        $log->menu_name = $permission->menus->name;
+        $log->menu_name = $permission->menus->name ?? $permission->name;
         $log->permission_name = $permission->name;
         $log->datetime = now()->toDateTimeString();
 

@@ -5,16 +5,8 @@
   <div class="topbar-left bg-white">
     <div class="text-center">
       <a href="{{url('/dashboard')}}" class="logo">
-        @if (getConfig('text_graphic_logo') == 1)
-          <i class="icon-c-logo"> <img src="{{Storage::disk('padeaf')->url(getConfig('site_logo_smartphone'))}}" height="42"/></i>
-        @endif
         <span class="text-light-theme fs40">
-          @if (getConfig('text_graphic_logo') == 1)
-            <img src="{{Storage::disk('padeaf')->url(getConfig('site_logo_desktop'))}}" style="margin-right:10px" height="42"/>
-          @endif
-        @if (getConfig('text_graphic_logo') == 0)
-          {{getConfig('site_name')}}
-        @endif
+            POS
         </span>
       </a>
     </div>

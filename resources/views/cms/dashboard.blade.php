@@ -4,7 +4,14 @@
 
 @section('top-styles')
 <!--Morris Chart CSS -->
+
 <link rel="stylesheet" href="{{ url('') }}/plugins/morris/morris.css">
+<style>
+  p.text-muted.mb-0 {
+    font-size: 20px;
+    font-weight: bolder;
+  }
+</style>
 @endsection
 
 @section('header')
@@ -31,7 +38,7 @@
     </div>
 
     <div class="row">
-      <div class="col-md-6 col-lg-6 col-xl-3">
+      <div class="col-md-4 col-lg-4 col-xl-3">
         <div class="widget-bg-color-icon card-box fadeInDown animated">
           <div class="bg-icon bg-icon-info pull-left">
             <i class="fa fa-user"></i>
@@ -41,6 +48,62 @@
               <b class="counter">{{$users}}</b>
             </h3>
             <p class="text-muted mb-0">Total Users</p>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+      </div>
+      <div class="col-md-4 col-lg-3 col-xl-3">
+        <div class="widget-bg-color-icon card-box fadeInDown animated">
+          <div class="bg-icon bg-icon-info pull-left">
+            <i class="fa fa-users"></i>
+          </div>
+          <div class="text-right">
+            <h3 class="text-dark">
+              <b class="counter">{{$users}}</b>
+            </h3>
+            <p class="text-muted mb-0">New Customer</p>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+      </div>
+      <div class="col-md-4 col-lg-3 col-xl-3">
+        <div class="widget-bg-color-icon card-box fadeInDown animated">
+          <div class="bg-icon bg-icon-info pull-left">
+            <i class="fa fa-bus"></i>
+          </div>
+          <div class="text-right">
+            <h3 class="text-dark">
+              <b class="counter">{{$users}}</b>
+            </h3>
+            <p class="text-muted mb-0">Vendor / Supplier</p>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+      </div>
+      <div class="col-md-4 col-lg-3 col-xl-3">
+        <div class="widget-bg-color-icon card-box fadeInDown animated">
+          <div class="bg-icon bg-icon-info pull-left">
+            <i class="fa fa-shopping-cart"></i>
+          </div>
+          <div class="text-right">
+            <h3 class="text-dark">
+              <b class="counter">{{$users}}</b>
+            </h3>
+            <p class="text-muted mb-0">Add New Item</p>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+      </div>
+      <div class="col-md-4 col-lg-3 col-xl-3">
+        <div class="widget-bg-color-icon card-box fadeInDown animated">
+          <div class="bg-icon bg-icon-info pull-left">
+            <i class="fa fa-credit-card-alt"></i>
+          </div>
+          <div class="text-right">
+            <h3 class="text-dark">
+              <b class="counter">{{$users}}</b>
+            </h3>
+            <p class="text-muted mb-0">Purchase Bill</p>
           </div>
           <div class="clearfix"></div>
         </div>

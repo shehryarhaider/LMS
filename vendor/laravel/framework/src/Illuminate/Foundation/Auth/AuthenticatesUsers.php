@@ -82,6 +82,7 @@ trait AuthenticatesUsers
         );
     }
 
+
     /**
      * Get the needed authorization credentials from the request.
      *

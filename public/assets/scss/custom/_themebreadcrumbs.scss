@@ -1,0 +1,13 @@
+.breadcrumb{
+    padding:0;
+    li.active{
+        color: $darker-theme;
+    }
+    a{
+        color: $light-theme;
+        transition: all 0.3s;
+            &:hover, &:focus, &:active{
+                color: $dark-theme;
+            }
+    }
+}

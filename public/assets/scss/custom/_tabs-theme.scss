@@ -1,0 +1,83 @@
+.theme_tabs_h{
+    border: 1px solid rgba($black, 0.05);
+    .tabs, .nav-tabs{
+        li.tab, li.nav-item{
+            a{
+                transition: all 0.3s;
+                color: $darker-theme !important;
+                border-right: 1px solid rgba($black, 0.05);
+                &:hover{
+                    background: rgba($darker-theme, 1);
+                    color: $white !important;
+                }
+            }
+            .active{
+                background: $darker-theme;
+                color: $white !important;
+            }
+
+        }
+        li:last-of-type{
+            a{
+                border: 0;
+            }
+        }
+        .indicator{
+            background: $dark-theme;
+        }
+    }
+    .nav-tabs{
+        border-bottom: 1px solid rgba($black, 0.05);
+        li:last-of-type{
+            a{
+                border-right: 1px solid rgba($black, 0.05);
+            }
+        }
+    }
+    .tab-content{
+        display: block;
+        padding: 20px !important;
+        margin-bottom: 0px !important;
+    }
+}
+
+.theme_tabs_v.tabs-vertical-env{
+    border: 1px solid rgba($black, 0.05);
+    .nav.tabs-vertical{
+        border-right: 1px solid rgba($black, 0.05);
+        li.nav-item{
+            a{
+                transition: all 0.3s;
+                color: $darker-theme !important;
+                border-bottom: 1px solid rgba($black, 0.05);
+                text-align: left;
+                &:hover{
+                    background: rgba($darker-theme, 1);
+                    color: $white !important;
+                }
+            }
+            a.active{
+                background: $darker-theme;
+                color: $white !important;
+            }
+
+        }
+        .indicator{
+            background: $dark-theme;
+        }
+    }
+    .tab-content{
+        padding: 20px;
+        width: 100%;
+    }
+}
+
+#datatable_processing{
+    background: $dark-theme;
+    color: $white;
+}
+
+.f-hide{display: none !important;}
+.s-hide{display: none !important;}
+.f-show{display: block !important;}
+.s-show{display: block !important;}

@@ -1,0 +1,44 @@
+// Only Print
+
+.v_align_b{
+    vertical-align: bottom !important;
+}
+.v_align_m{
+    vertical-align: middle !important;
+}
+
+.mx-w-800{
+    max-width: 800px;
+}
+
+@media print {
+    .mx-w-800{
+        max-width: 100%;
+        height: 100%;
+    }
+    .print_custom{
+        .portlet{
+            border: 0;
+            .portlet-heading{
+                display: none;
+            }
+            .portlet-body{
+                padding: 0;
+            }
+
+            table{
+                tr{
+                    th{
+                        // padding: 5px;
+                        -webkit-print-color-adjust: exact;
+                        background: $dark-theme !important;
+                        // color:  !important;
+                    }
+                    td{
+                        // padding: 5px;
+                    }
+                }
+            }
+        }
+    }
+}

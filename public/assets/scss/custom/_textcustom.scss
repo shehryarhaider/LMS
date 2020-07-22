@@ -1,0 +1,17 @@
+
+.text-darker-theme{color: $darker-theme}
+.text-dark-theme{color: $dark-theme}
+.text-light-theme{color: $light-theme}
+.text-black{color: $black}
+
+.text-dark-theme-link{color: rgba($dark-theme, 1); transition: all 0.5s;
+    &:hover,&:focus,&:active{
+        color: rgba($dark-theme, 0.7)
+    }
+}
+
+.text-light-theme-link{color: rgba($light-theme, 1); transition: all 0.5s;
+    &:hover,&:focus,&:active{
+        color: rgba($light-theme, 0.7)
+    }
+}

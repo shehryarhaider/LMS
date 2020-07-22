@@ -1,0 +1,129 @@
+.checkbox{
+    input[type="checkbox"] + label {
+        padding-left:10px;
+        &::before {
+            height:20px;
+            width:20px;
+        }
+        &::after {
+            font-size:14px;
+            height:20px;
+            width:20px;
+        }
+    }
+}
+
+.checkbox-theme {
+    input[type="checkbox"]:checked + label {
+        &::before {
+            border-color:$dark-theme;
+        }
+        &::after {
+            color:$light-theme;
+        }
+    }
+}
+
+.checkbox-theme-light {
+    input[type="checkbox"]:checked + label::before {
+        background-color: $light-theme;
+        border-color: $light-theme;
+      }
+}
+
+.checkbox-theme-light {
+    input[type="checkbox"]:checked + label::after {
+        color: $white;
+    }
+}
+.checkbox-theme-dark {
+    input[type="checkbox"]:checked + label::before {
+        background-color: $dark-theme;
+        border-color: $dark-theme;
+      }
+}
+
+.checkbox-theme-dark {
+    input[type="checkbox"]:checked + label::after {
+        color: $white;
+    }
+}
+
+
+
+// Radio
+
+.custom_top_radio.radio-theme {
+    input[type="radio"] + label {
+        &::before {
+            top:6px;
+        }
+        &::after {
+            background-color: $light-theme;
+            top:9px;
+        }
+    }
+    input[type="radio"]:checked + label {
+        &::before {
+            border-color:$dark-theme;
+            top:6px;
+        }
+        &::after {
+            background-color: $light-theme;
+            top:9px;
+        }
+    }
+}
+
+
+.radio-theme {
+    input[type="radio"] + label {
+        &::after {
+            background-color: $light-theme;
+        }
+    }
+    input[type="radio"]:checked + label {
+        &::before {
+            border-color:$dark-theme;
+        }
+        &::after {
+            background-color: $light-theme;
+        }
+    }
+}
+
+.radio-theme-light {
+    input[type="radio"] + label {
+        &::after {
+            background-color: $light-theme;
+        }
+    }
+    input[type="radio"]:checked + label {
+        &::before {
+            border-color:$light-theme;
+        }
+        &::after {
+            background-color: $light-theme;
+        }
+    }
+}
+
+.radio-theme-dark {
+    input[type="radio"] + label {
+        &::after {
+            background-color: $dark-theme;
+        }
+    }
+    input[type="radio"]:checked + label {
+        &::before {
+            border-color:$dark-theme;
+        }
+        &::after {
+            background-color: $dark-theme;
+        }
+    }
+}
+
+.form-check-inline:first-of-type{
+    margin-left: 6px;
+}

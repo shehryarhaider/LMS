@@ -1,0 +1,44 @@
+.side-menu.left{
+    background: $darker-theme;
+    #sidebar-menu{
+        padding:0;
+        ul > li > a{
+            color:$white;
+            border-color:$light-theme;
+            &:hover{
+                background:$white;
+                color:$light-theme;
+            }
+        }
+        .subdrop{color:$light-theme !important;}
+        ul ul{background:rgba($black, 0.5);}
+        ul > li > a.active{color:$light-theme !important; background:$white;}
+    }
+}
+
+#wrapper.enlarged {
+    .left.side-menu {
+        #sidebar-menu > {
+            ul > {
+                li {
+                    &:hover >{
+                        // color:$light-theme;
+                        a{
+                            color:$light-theme;
+                            border-color:$light-theme;
+                        }
+                        ul {
+                            a{
+                                color:$light-theme;
+                                transition: all 0.3s;
+                                &:hover{
+                                    color:$dark-theme;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

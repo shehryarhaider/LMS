@@ -1,0 +1,12 @@
+.card_box_custom{
+	position: relative;
+	.cb_overlap_heading{
+		position: absolute;
+		top: -14px;
+		margin: 0;
+		background: $white;
+		// border: 1px solid  rgba(20, 51, 56, 0.1);
+    padding: 0px 10px;
+    color: $dark-theme;
+	}
+}

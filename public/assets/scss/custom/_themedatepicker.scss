@@ -1,0 +1,55 @@
+.input-group-append{
+    .input-group-text{
+        background: $light-theme;
+        color: $white;
+    }
+}
+
+.datepicker{
+    .table-condensed{
+        thead{
+            tr:nth-child(3){
+                background: $light-theme;
+                th{
+                    color:$white;
+                    padding: 5px;
+                }
+            }
+        }
+        tbody{
+            tr{
+                td.active.day{
+                    background:$light-theme !important;
+                }
+                td{
+                    span.month.focused.active{
+                        background:$light-theme !important;
+                    }
+                    span.year.active.focused{
+                        background:$light-theme !important;
+                    }
+                    span.decade.active{
+                        background:$light-theme !important;
+                    }
+                    span.century.active{
+                        background:$light-theme !important;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.card-box{
+    border-color:rgba($darker-theme, 0.1);
+    .portlet{
+        border-color:rgba($darker-theme, 0.15);
+    }
+}
+
+.custom_userrole{
+    .portlet{
+        .portlet-heading{padding:5px 10px;}
+    }
+}
+

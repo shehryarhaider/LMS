@@ -1,0 +1,9 @@
+@mixin bg-gradient-theme($degree ,$from, $fromPer, $mid , $midPer ,$to, $toPer) {
+    background: $from; /* Old browsers */
+    background: -moz-linear-gradient($degree, $from $fromPer, $mid $midPer, $to $toPer); /* FF3.6-15 */
+    background: -webkit-linear-gradient($degree, $from $fromPer,$mid $midPer,$to $toPer); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient($degree, $from $fromPer,$mid $midPer,$to $toPer); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$from', endColorstr='$to',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+}
+
+

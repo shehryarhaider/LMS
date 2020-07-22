@@ -1,0 +1,13 @@
+<?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+
+class BlogCategory extends Model
+{
+    protected $table = 'blog_categories';
+
+    protected $guarded = ['id','created_at','updated_at'];
+
+}

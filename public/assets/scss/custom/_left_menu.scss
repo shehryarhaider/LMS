@@ -1,0 +1,32 @@
+#wrapper{
+  &.enlarged {
+    .left{
+      &.side-menu {
+        #sidebar-menu {
+          ul > {
+            li:hover > {
+              a{
+                color: $dark-theme;
+                border-color: $dark-theme;
+              }
+              ul {
+                a{
+                  background: $darker-theme;
+                  color: $white;
+                  &:hover{
+                    color: $light-theme;
+                  }
+                }
+              }
+            }
+          }
+          ul{
+            ul{
+              background: $darker-theme;
+            }
+          }
+        }
+      }
+    }
+  }
+}

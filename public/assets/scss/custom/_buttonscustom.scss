@@ -1,0 +1,68 @@
+/* =============
+   Buttons Theme
+============= */
+.btn-dark-theme {
+  color: $white !important;
+  background-color: $dark-theme !important;
+  border: 1px solid $dark-theme !important;
+}
+
+.btn-dark-theme:hover,
+.btn-dark-theme:focus,
+.btn-dark-theme:active,
+.btn-dark-theme.active,
+.btn-dark-theme.focus,
+.btn-dark-theme:active,
+.btn-dark-theme:focus,
+.btn-dark-theme:hover,
+.open > .dropdown-toggle.btn-dark-theme {
+  background-color: $light-theme !important;
+  border: 1px solid $light-theme !important;
+}
+
+.open > .dropdown-toggle.btn-dark-theme.btn-custom ,
+{
+  border-width: 2px !important;
+  color: $white !important;
+}
+
+.btn-custom.btn-dark-theme {
+  color: $dark-theme !important;
+}
+
+
+.btn-light-theme {
+color: $white !important;
+background-color: $light-theme !important;
+border: 1px solid $light-theme !important;
+}
+
+.btn-light-theme:hover,
+.btn-light-theme:focus,
+.btn-light-theme:active,
+.btn-light-theme.active,
+.btn-light-theme.focus,
+.btn-light-theme:active,
+.btn-light-theme:focus,
+.btn-light-theme:hover,
+.open > .dropdown-toggle.btn-light-theme {
+background-color: $dark-theme !important;
+border: 1px solid $dark-theme !important;
+}
+
+.open > .dropdown-toggle.btn-light-theme.btn-custom ,
+{
+border-width: 2px !important;
+color: $white !important;
+}
+
+.btn-custom.btn-light-theme {
+color: $light-theme !important;
+}
+
+.btn-custom-white.btn-custom.btn-rounded{
+    color:$white !important;
+    &:hover, &:focus, &:active{
+        color:$light-theme !important;
+    }
+}

@@ -11,6 +11,10 @@
     font-size: 20px;
     font-weight: bolder;
   }
+  .widget-bg-color-icon.card-box.fadeInDown.animated:hover {
+    box-shadow: 1px 1px 6px 1px;
+    cursor: pointer;
+  }
 </style>
 @endsection
 

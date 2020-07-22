@@ -1,6 +1,6 @@
 @extends('cms.layouts.masterpage')
 
-@section('title', 'Add Networks')
+@section('title', 'Add Sub Account Types')
 
 @section('top-styles')
 
@@ -31,15 +31,15 @@
             </a>
           </li>
           <li class="breadcrumb-item">
-            <a href="#">Networks</a>
+            <a href="#">Sub Account Types</a>
           </li>
-          <li class="breadcrumb-item active">Add Network</li>
+          <li class="breadcrumb-item active">Add Sub Account Type</li>
         </ol>
 
       </div>
     </div>
 
-    <form action="{{$isEdit ? route('network.update',[$network->id]) : route('network.store')}}" method="POST">
+    <form action="{{$isEdit ? route('chart_of_account.update',[$sub_account_type->id]) : route('chart_of_account.store')}}" method="POST">
       @csrf
       @if ($isEdit)
         <input type="hidden" name="_method" value="put">
@@ -47,7 +47,7 @@
       <div class="portlet">
         <div class="portlet-heading bg-light-theme">
           <h3 class="portlet-title">
-            <span class="ti-user mr-2"></span>Add Network</h3>
+            <span class="ti-user mr-2"></span>Add Sub Account Type</h3>
           <div class="portlet-widgets">
             <span class="divider"></span>
             <button type="submit" class="btn btn-white waves-effect btn-rounded">
@@ -70,8 +70,8 @@
                     <label>Name
                       <span class="text-danger">*</span>
                     </label>
-                    <input type="text" name="name" parsley-trigger="change" required placeholder="Name..." class="form-control" id="userName" value="{{$network->name ?? null }}"
-                    data-parsley-remote="{{route('network.validater',[$network->id ?? 0])}}" data-parsley-remote-message="This name has already been taken.">
+                    <input type="text" name="name" parsley-trigger="change" required placeholder="Name..." class="form-control" id="userName" value="{{$sub_account_type->name ?? null }}"
+                    data-parsley-remote="{{route('chart_of_account.validater',[$sub_account_type->id ?? 0])}}" data-parsley-remote-message="This name has already been taken.">
                     <span class="text-danger">{{$errors->first('name')?? null}}</span>
                   </div>
                 </div>

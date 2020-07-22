@@ -1,6 +1,6 @@
 @extends('cms.layouts.masterpage')
 
-@section('title', 'Networks')
+@section('title', 'Sub Account Type')
 
 @section('top-styles')
 <!-- Plugins css-->
@@ -38,9 +38,9 @@
             </a>
           </li>
           <li class="breadcrumb-item">
-            <a href="#">Networks</a>
+            <a href="#">Sub Account Types</a>
           </li>
-          <li class="breadcrumb-item active">Networks</li>
+          <li class="breadcrumb-item active">Sub Account Types</li>
         </ol>
       </div>
     </div>
@@ -48,12 +48,12 @@
     <div class="portlet">
       <div class="portlet-heading bg-light-theme">
         <h3 class="portlet-title">
-          <i class="ti-sharethis mr-2"></i> Networks</h3>
+          <i class="ti-sharethis mr-2"></i> Sub Account Types</h3>
         <div class="portlet-widgets">
           @if ( $permissions == "is_admin" || in_array( 'add', $permissions ) )
-            <a href="{{route('network.create')}}">
+            <a href="{{route('chart_of_account.create')}}">
               <button class="btn btn-white btn-custom-white btn-custom btn-rounded waves-effect" type="button">
-                <i class="fa fa-plus"></i> Add Network</button>
+                <i class="fa fa-plus"></i> Add Sub Account</button>
             </a>
           @endif
         </div>
@@ -67,6 +67,7 @@
                 <tr>
                   <th class="no-sort text-center" width="5%">S.No</th>
                   <th>Name</th>
+                  <th width="20%">List of Accounts</th>
                   @if ($count > 0)
                   <th class="no-sort text-center" width="10%">Actions</th>
                   @endif
@@ -114,10 +115,11 @@
     var table = $('#datatable').DataTable({
       processing: true,
       serverSide: true,
-      ajax: '{{ route("network.datatable") }}',
+      ajax: '{{ route("chart_of_account.datatable") }}',
       "columns": [
         { "data": "id", "defaultContent": "" },
         { "data": "name", "defaultContent": "" },
+        { "data": "id", "defaultContent": "" },
         @if ($count > 0)
         { "data": "id", "defaultContent": "" },
         @endif
@@ -132,11 +134,25 @@
           return meta.row + 1;
         },
       },
+      {
+        "targets": -2,
+        "render": function (data, type, row, meta) {
+          var edit = '{{route("list_of_accounts",[":id"])}}';
+          edit = edit.replace(':id', data);
+          return `
+          @if ( $permissions == "is_admin" || in_array( 'edit', $permissions ) )
+          <a href="` + edit + `" class="text-info p-1" data-original-title="Edit" title="" data-placement="top" data-toggle="tooltip">
+              <i class="fa fa-user-secret"></i>List of Accounts
+          </a>
+          @endif
+          `;
+        },
+      },
       @if ($count > 0)
       {
         "targets": -1,
         "render": function (data, type, row, meta) {
-          var edit = '{{route("network.edit",[":id"])}}';
+          var edit = '{{route("chart_of_account.edit",[":id"])}}';
           edit = edit.replace(':id', data);
           var checked = row.status == 1 ? 'checked' : null;
           return `
@@ -189,7 +205,7 @@
           }
 
           axios
-            .post('{{route("network.status")}}', {
+            .post('{{route("chart_of_account.status")}}', {
               _token: '{{csrf_token()}}',
               _method: 'patch',
               id: id,
@@ -218,7 +234,7 @@
           }).then(function (result) {
             if (result.value) {
             axios
-              .post('{{route("network.destroy")}}', {
+              .post('{{route("chart_of_account.destroy")}}', {
                 _method: 'delete',
                 _token: '{{csrf_token()}}',
                 id: deleteId,
@@ -228,7 +244,7 @@
 
                 swal(
                   'Deleted!',
-                  'Your Network has been deleted.',
+                  'Your Sub Account Type has been deleted.',
                   'success'
                 )
 

@@ -38,7 +38,8 @@ Route::group(['middleware' => ['auth','userStatus','lastLogin','optimizeImages']
         //Datatables ajax
         Route::get('/users/datatable', 'UsersController@datatable')->name('users.datatable');
         Route::get('/roles/datatable', 'RoleController@datatable')->name('roles.datatable');
-        Route::get('/networks/datatable', 'NetworkController@datatable')->name('network.datatable');
+        Route::get('/chart_of_account/datatable', 'ChartOfAccountController@datatable')->name('chart_of_account.datatable');
+        Route::get('/chart_of_account/{chart_of_account}/sub_account_types/datatable', "SubAccountTypeController@datatable")->name('sub_account_type.datatable');
         Route::get('/terms/datatable', 'TermsController@datatable')->name('term.datatable');
         Route::get('/categoryfaq/datatable', 'FAQCategoryController@datatable')->name('faq.category.datatable');
         Route::get('/donor/datatable', 'DonorController@datatable')->name('donor.datatable');
@@ -71,7 +72,7 @@ Route::group(['middleware' => ['auth','userStatus','lastLogin','optimizeImages']
         // Ajax Gets Validation
         Route::get('/users/validater/{id}', 'UsersController@validater')->name('users.validater');
         Route::get('/roles/validater/{id}', 'RoleController@validater')->name('roles.validater');
-        Route::get('/networks/validater/{id}', "NetworkController@validater")->name('network.validater');
+        Route::get('/chart_of_account/validater/{id}', "ChartOfAccountController@validater")->name('chart_of_account.validater');
         Route::get('/categoryfaq/validater/{id}', "FAQCategoryController@validater")->name('faq.category.validater');
         Route::get('/blogcategory/validater/{id}', "BlogCategoryController@validater")->name('blog.category.validater');
         Route::get('/blog/post/validater/{id}', 'PostController@validater')->name('blog.post.validater');
@@ -118,14 +119,32 @@ Route::group(['middleware' => ['auth','userStatus','lastLogin','optimizeImages']
             Route::get('/reports/report', 'ReportsController@index')->name('reports');
             Route::post('/reports/report', 'ReportsController@report')->name('reports');
 
-            //Network
-            Route::get('/networks', "NetworkController@index")->name('network');
-            Route::get('/networks/add', "NetworkController@create")->name('network.create');
-            Route::post('/networks/add', "NetworkController@store")->name('network.store');
-            Route::get('/networks/{network}/edit', "NetworkController@edit")->name('network.edit');
-            Route::put('/networks/{network}/edit', "NetworkController@update")->name('network.update');
-            Route::patch('/networks/status', "NetworkController@status")->name('network.status');
-            Route::delete('/networks/destroy', "NetworkController@destroy")->name('network.destroy');
+            //Chart of Accounts
+            Route::get('/chart_of_account', "ChartOfAccountController@index")->name('chart_of_account');
+            Route::get('/chart_of_account/add', "ChartofAccountController@create")->name('chart_of_account.create');
+            Route::post('/chart_of_account/add', "ChartofAccountController@store")->name('chart_of_account.store');
+            Route::get('/chart_of_account/{chart_of_account}/edit', "ChartofAccountController@edit")->name('chart_of_account.edit');
+            Route::put('/chart_of_account/{chart_of_account}/edit', "ChartofAccountController@update")->name('chart_of_account.update');
+            Route::patch('/chart_of_account/status', "ChartofAccountController@status")->name('chart_of_account.status');
+            Route::delete('/chart_of_account/destroy', "ChartofAccountController@destroy")->name('chart_of_account.destroy');
+
+            //Sub Account Types
+            Route::get('/chart_of_account/{chart_of_account}/sub_account_types', "SubAccountTypeController@index")->name('sub_account_type');
+            Route::get('/chart_of_account/{chart_of_account}/sub_account_types/add', "SubAccountTypeController@create")->name('sub_account_type.create');
+            Route::post('/chart_of_account/{chart_of_account}/sub_account_types/add', "SubAccountTypeController@store")->name('sub_account_type.store');
+            Route::get('/chart_of_account/{chart_of_account}/sub_account_types/{sub_account_type}/edit', "SubAccountTypeController@edit")->name('sub_account_type.edit');
+            Route::put('/chart_of_account/{chart_of_account}/sub_account_types/{sub_account_type}/edit', "SubAccountTypeController@update")->name('sub_account_type.update');
+            Route::patch('/chart_of_account/{chart_of_account}/sub_account_types/status', "SubAccountTypeController@status")->name('sub_account_type.status');
+            Route::delete('/chart_of_account/{chart_of_account}/sub_account_types/destroy', "SubAccountTypeController@destroy")->name('sub_account_type.destroy');
+
+            //List of Account
+            Route::get('/chart_of_account/sub_account_types/{sub_account_type}/list_of_accounts/', "ListOfAccountController@index")->name('list_of_accounts');
+            Route::get('/chart_of_account/sub_account_types/{sub_account_type}/list_of_accounts/add', "ListOfAccountController@create")->name('list_of_accounts.create');
+            Route::post('/chart_of_account/sub_account_types/{sub_account_type}/list_of_accounts/add', "ListOfAccountController@store")->name('list_of_accounts.store');
+            Route::get('/chart_of_account/sub_account_types/{sub_account_type}/list_of_accounts/{list_of_accounts}/edit', "ListOfAccountController@edit")->name('list_of_accounts.edit');
+            Route::put('/chart_of_account/sub_account_types/{sub_account_type}/list_of_accounts/{list_of_accounts}/edit', "ListOfAccountController@update")->name('list_of_accounts.update');
+            Route::patch('/chart_of_account/sub_account_types/{sub_account_type}/list_of_accounts/status', "ListOfAccountController@status")->name('list_of_accounts.status');
+            Route::delete('/chart_of_account/sub_account_types/{sub_account_type}/list_of_accounts/destroy', "ListOfAccountController@destroy")->name('list_of_accounts.destroy');
 
 
             //Term

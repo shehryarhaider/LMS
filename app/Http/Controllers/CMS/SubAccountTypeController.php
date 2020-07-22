@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\CMS;
 
 use App\Http\Controllers\Controller;
-use App\Network;
+use App\SubAccountType;
 use Illuminate\Http\Request;
 use DataTables;
 use DB;
-class NetworkController extends Controller
+class SubAccountTypeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +15,7 @@ class NetworkController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(Request $request, $chart_of_account)
     {
         //getCurrentMenuId used from helpers.php
         $menu_id = getCurrentMenuId($request);
@@ -23,7 +23,7 @@ class NetworkController extends Controller
         //getFrontEndPermissionsSetup used from helpers.php
         $data = getFrontEndPermissionsSetup($menu_id);
 
-        return view('cms.networks.networks', $data);
+        return view('cms.chart_of_account.sub_account_type.sub_account_type', $data);
     }
 
     /**
@@ -31,10 +31,10 @@ class NetworkController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function datatable()
+    public function datatable($chart_of_account)
     {
         // gets the selects colums only
-        // $roles = Network::select(['id','name', 'status']);
+        // $roles = SubAccountType::select(['id','name', 'status']);
         $roles = DB::table('mf_networks')->select(['id','name', 'status']);
 
         return DataTables::of($roles)->make();
@@ -61,13 +61,13 @@ class NetworkController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(ChartofAccount $chart_of_account)
     {
         $data = [
             'isEdit' => false,
         ];
 
-        return view('cms.networks.add-networks', $data);
+        return view('cms.chart_of_account.sub_account_type.add-sub_account_type', $data);
     }
 
     /**
@@ -76,56 +76,56 @@ class NetworkController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, ChartofAccount $chart_of_account)
     {
         $request->validate([
             'name' => 'required|max:191|unique:mf_networks,name'
         ]);
 
-        Network::create($request->except('_token'));
+        SubAccountType::create($request->except('_token'));
 
         // form helpers.php
         logAction($request);
 
-        return redirect()->route('network');
+        return redirect()->route('sub_account_type');
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Network  $id
+     * @param  \App\SubAccountType  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Network $network)
+    public function edit(ChartofAccount $chart_of_account, SubAccountType $sub_account_type)
     {
         $data = [
-            'network' => $network,
+            'network' => $sub_account_type,
             'isEdit' => true,
         ];
 
-        return view('cms.networks.add-networks', $data);
+        return view('cms.chart_of_account.sub_account_type.add-sub_account_type', $data);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Network  $id
+     * @param  \App\SubAccountType  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,Network $network)
+    public function update(Request $request,ChartofAccount $chart_of_account, SubAccountType $sub_account_type)
     {
         $request->validate([
-            'name' => "required|max:191|unique:mf_networks,name,{$network->id}"
+            'name' => "required|max:191|unique:mf_networks,name,{$sub_account_type->id}"
         ]);
 
-        $network->name = $request->name;
-        $network->save();
+        $sub_account_type->name = $request->name;
+        $sub_account_type->save();
 
         // form helpers.php
         logAction($request);
 
-        return redirect()->route('network');
+        return redirect()->route('sub_account_type');
     }
 
     /**
@@ -142,7 +142,7 @@ class NetworkController extends Controller
         $id = $request->input('id');
         $status = $request->input('status');
 
-        $item = Network::find($id);
+        $item = SubAccountType::find($id);
 
         if ($item->update(['status' => $status])) {
 
@@ -165,7 +165,7 @@ class NetworkController extends Controller
      */
     public function destroy(Request $request)
     {
-        $user = Network::findOrFail($request->id);
+        $user = SubAccountType::findOrFail($request->id);
 
         // apply your conditional check here
         if ( false ) {

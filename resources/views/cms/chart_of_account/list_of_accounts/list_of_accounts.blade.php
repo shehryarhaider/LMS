@@ -1,6 +1,6 @@
 @extends('cms.layouts.masterpage')
 
-@section('title', 'Sub Account Type')
+@section('title', 'List of Accounts')
 
 @section('top-styles')
 <!-- Plugins css-->
@@ -41,9 +41,9 @@
             <a href="{{route('chart_of_account')}}">Chart of Account : {{$chart_of_account->name}}</a>
           </li>
           <li class="breadcrumb-item">
-            <a href="#">Sub Account Types</a>
+            <a href="{{route('sub_account_type',[$chart_of_account->id])}}">Sub Account Type : {{$sub_account_type->name}}</a>
           </li>
-          <li class="breadcrumb-item active">Sub Account Types</li>
+          <li class="breadcrumb-item active">List of Accounts</li>
         </ol>
       </div>
     </div>
@@ -51,12 +51,12 @@
     <div class="portlet">
       <div class="portlet-heading bg-light-theme">
         <h3 class="portlet-title">
-          <i class="ti-sharethis mr-2"></i> Sub Account Types</h3>
+          <i class="ti-sharethis mr-2"></i> List of Accounts</h3>
         <div class="portlet-widgets">
           @if ( $permissions == "is_admin" || in_array( 'add', $permissions ) )
-            <a href="{{route('sub_account_type.create',$chart_of_account->id)}}">
+            <a href="{{route('list_of_account.create',[$chart_of_account->id,$sub_account_type->id])}}">
               <button class="btn btn-white btn-custom-white btn-custom btn-rounded waves-effect" type="button">
-                <i class="fa fa-plus"></i> Add Sub Account</button>
+                <i class="fa fa-plus"></i> Add List of Account</button>
             </a>
           @endif
         </div>
@@ -70,7 +70,6 @@
                 <tr>
                   <th class="no-sort text-center" width="5%">S.No</th>
                   <th>Name</th>
-                  <th width="20%">List of Accounts</th>
                   @if ($count > 0)
                   <th class="no-sort text-center" width="10%">Actions</th>
                   @endif
@@ -118,12 +117,11 @@
     var table = $('#datatable').DataTable({
       processing: true,
       serverSide: true,
-      ajax: '{{ route("sub_account_type.datatable",$chart_of_account->id) }}',
+      ajax: '{{ route("list_of_account.datatable",[$chart_of_account->id,$sub_account_type->id]) }}',
       "columns": [
         { "data": "id", "defaultContent": "" },
         { "data": "name", "defaultContent": "" },
-        { "data": "id", "defaultContent": "" },
-        @if ($count > 0)
+         @if ($count > 0)
         { "data": "id", "defaultContent": "" },
         @endif
       ],
@@ -137,28 +135,15 @@
           return meta.row + 1;
         },
       },
-      {
-        "targets": -2,
-        "render": function (data, type, row, meta) {
-          var edit = '{{route("list_of_account",[":c_id",":id"])}}';
-          edit = edit.replace(':id', data);
-          edit = edit.replace(':c_id', row.chart_of_account_id);
-          return `
-          @if ( $permissions == "is_admin" || in_array( 'edit', $permissions ) )
-          <a href="` + edit + `" class="text-info p-1" data-original-title="Edit" title="" data-placement="top" data-toggle="tooltip">
-              <i class="fa fa-user-secret"></i>List of Accounts
-          </a>
-          @endif
-          `;
-        },
-      },
       @if ($count > 0)
       {
         "targets": -1,
         "render": function (data, type, row, meta) {
-          var edit = '{{route("sub_account_type.edit",[":c_id",":id"])}}';
+          console.log(row);
+          var edit = '{{route("list_of_account.edit",[":c_id",":s_id",":id"])}}';
           edit = edit.replace(':id', data);
-          edit = edit.replace(':c_id', row.chart_of_account_id);
+          edit = edit.replace(':c_id', row.sub_account_type.chart_of_account_id);
+          edit = edit.replace(':s_id', row.sub_account_type_id);
           var checked = row.status == 1 ? 'checked' : null;
           return `
           @if ( $permissions == "is_admin" || in_array( 'edit', $permissions ) )
@@ -210,7 +195,7 @@
           }
 
           axios
-            .post('{{route("sub_account_type.status",$chart_of_account->id)}}', {
+            .post('{{route("list_of_account.status",[$chart_of_account->id,$sub_account_type->id])}}', {
               _token: '{{csrf_token()}}',
               _method: 'patch',
               id: id,
@@ -239,7 +224,7 @@
           }).then(function (result) {
             if (result.value) {
             axios
-              .post('{{route("sub_account_type.destroy",$chart_of_account->id)}}', {
+              .post('{{route("list_of_account.destroy",[$chart_of_account->id,$sub_account_type->id])}}', {
                 _method: 'delete',
                 _token: '{{csrf_token()}}',
                 id: deleteId,

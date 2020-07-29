@@ -31,7 +31,10 @@
             </a>
           </li>
           <li class="breadcrumb-item">
-            <a href="#">Sub Account Types</a>
+            <a href="{{route('chart_of_account')}}">Chart of Account : {{$chart_of_account->name}}</a>
+          </li>
+          <li class="breadcrumb-item">
+            <a href="{{route('sub_account_type',$chart_of_account->id)}}">Sub Account Types</a>
           </li>
           <li class="breadcrumb-item active">Add Sub Account Type</li>
         </ol>
@@ -39,7 +42,7 @@
       </div>
     </div>
 
-    <form action="{{$isEdit ? route('chart_of_account.update',[$sub_account_type->id]) : route('chart_of_account.store')}}" method="POST">
+    <form action="{{$isEdit ? route('sub_account_type.update',[$chart_of_account->id,$sub_account_type->id]) : route('sub_account_type.store',[$chart_of_account->id])}}" method="POST">
       @csrf
       @if ($isEdit)
         <input type="hidden" name="_method" value="put">
@@ -65,13 +68,12 @@
             <div class="card-box">
 
               <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-12">
                   <div class="form-group">
                     <label>Name
                       <span class="text-danger">*</span>
                     </label>
-                    <input type="text" name="name" parsley-trigger="change" required placeholder="Name..." class="form-control" id="userName" value="{{$sub_account_type->name ?? null }}"
-                    data-parsley-remote="{{route('chart_of_account.validater',[$sub_account_type->id ?? 0])}}" data-parsley-remote-message="This name has already been taken.">
+                    <input type="text" name="name" parsley-trigger="change" required placeholder="Name..." class="form-control" id="userName" value="{{$sub_account_type->name ?? null }}">
                     <span class="text-danger">{{$errors->first('name')?? null}}</span>
                   </div>
                 </div>

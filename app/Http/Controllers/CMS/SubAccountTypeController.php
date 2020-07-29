@@ -4,6 +4,8 @@ namespace App\Http\Controllers\CMS;
 
 use App\Http\Controllers\Controller;
 use App\SubAccountType;
+use App\ChartofAccount;
+use App\ListofAccount;
 use Illuminate\Http\Request;
 use DataTables;
 use DB;
@@ -15,7 +17,7 @@ class SubAccountTypeController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, $chart_of_account)
+    public function index(Request $request, ChartofAccount $chart_of_account)
     {
         //getCurrentMenuId used from helpers.php
         $menu_id = getCurrentMenuId($request);
@@ -50,7 +52,7 @@ class SubAccountTypeController extends Controller
     public function validater(Request $request, $id)
     {
         $request->validate([
-            'name' => "required|max:191|unique:mf_networks,name,{$id}"
+            'name' => "required|max:191|unique:mt_sub_accounts_types,name,{$id}"
         ]);
 
         return response()->json(['success'], 200);
@@ -64,7 +66,8 @@ class SubAccountTypeController extends Controller
     public function create(ChartofAccount $chart_of_account)
     {
         $data = [
-            'isEdit' => false,
+            'isEdit'            => false,
+            'chart_of_account'  => $chart_of_account,
         ];
 
         return view('cms.chart_of_account.sub_account_type.add-sub_account_type', $data);
@@ -79,15 +82,17 @@ class SubAccountTypeController extends Controller
     public function store(Request $request, ChartofAccount $chart_of_account)
     {
         $request->validate([
-            'name' => 'required|max:191|unique:mf_networks,name'
+            'name' => 'required|max:191|unique:mt_sub_accounts_types,name'
         ]);
 
-        SubAccountType::create($request->except('_token'));
+        $data = $request->all();
+        $data['chart_of_account_id'] = $chart_of_account->id;
+        SubAccountType::create($data);
 
         // form helpers.php
         logAction($request);
 
-        return redirect()->route('sub_account_type');
+        return redirect()->route('sub_account_type',[$chart_of_account->id]);
     }
 
     /**
@@ -99,8 +104,9 @@ class SubAccountTypeController extends Controller
     public function edit(ChartofAccount $chart_of_account, SubAccountType $sub_account_type)
     {
         $data = [
-            'network' => $sub_account_type,
-            'isEdit' => true,
+            'sub_account_type'  => $sub_account_type,
+            'chart_of_account'  => $chart_of_account,
+            'isEdit'            => true,
         ];
 
         return view('cms.chart_of_account.sub_account_type.add-sub_account_type', $data);
@@ -116,7 +122,7 @@ class SubAccountTypeController extends Controller
     public function update(Request $request,ChartofAccount $chart_of_account, SubAccountType $sub_account_type)
     {
         $request->validate([
-            'name' => "required|max:191|unique:mf_networks,name,{$sub_account_type->id}"
+            'name' => "required|max:191|unique:mt_sub_accounts_types,name,{$sub_account_type->id}"
         ]);
 
         $sub_account_type->name = $request->name;
@@ -125,7 +131,7 @@ class SubAccountTypeController extends Controller
         // form helpers.php
         logAction($request);
 
-        return redirect()->route('sub_account_type');
+        return redirect()->route('sub_account_type',[$chart_of_account->id]);
     }
 
     /**
@@ -166,7 +172,7 @@ class SubAccountTypeController extends Controller
     public function destroy(Request $request)
     {
         $user = SubAccountType::findOrFail($request->id);
-
+        ListofAccount::where('sub_account_type_id',$request->id)->delete();
         // apply your conditional check here
         if ( false ) {
             $response['error'] = 'This Network has something assigned to it.';

@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\CMS;
 
 use App\Http\Controllers\Controller;
+use App\ListofAccount;
+use App\ChartOfAccount;
 use App\SubAccountType;
 use Illuminate\Http\Request;
 use DataTables;
 use DB;
-class ListOfAccountController extends Controller
+class ListofAccountController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +17,7 @@ class ListOfAccountController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, $chart_of_account)
+    public function index(Request $request,ChartOfAccount $chart_of_account ,SubAccountType $sub_account_type)
     {
         //getCurrentMenuId used from helpers.php
         $menu_id = getCurrentMenuId($request);
@@ -23,7 +25,10 @@ class ListOfAccountController extends Controller
         //getFrontEndPermissionsSetup used from helpers.php
         $data = getFrontEndPermissionsSetup($menu_id);
 
-        return view('cms.chart_of_account.sub_account_type.sub_account_type', $data);
+        $data['sub_account_type'] = $sub_account_type;
+        $data['chart_of_account'] = $chart_of_account;
+
+        return view('cms.chart_of_account.list_of_accounts.list_of_accounts', $data);
     }
 
     /**
@@ -31,11 +36,11 @@ class ListOfAccountController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function datatable($chart_of_account)
+    public function datatable($chart_of_account,$sub_account_type)
     {
         // gets the selects colums only
-        // $roles = SubAccountType::select(['id','name', 'status']);
-        $roles = DB::table('mf_networks')->select(['id','name', 'status']);
+        // $roles = ListofAccount::select(['id','name', 'status']);
+        $roles = ListofAccount::with('subAccountType')->where('sub_account_type_id',$sub_account_type)->select(['id','sub_account_type_id','name', 'status']);
 
         return DataTables::of($roles)->make();
     }
@@ -50,7 +55,7 @@ class ListOfAccountController extends Controller
     public function validater(Request $request, $id)
     {
         $request->validate([
-            'name' => "required|max:191|unique:mf_networks,name,{$id}"
+            'name' => "required|max:191|unique:list_of_accounts,name,{$id}"
         ]);
 
         return response()->json(['success'], 200);
@@ -61,13 +66,15 @@ class ListOfAccountController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(ChartofAccount $chart_of_account)
+    public function create(ChartOfAccount $chart_of_account ,SubAccountType $sub_account_type)
     {
         $data = [
-            'isEdit' => false,
+            'isEdit'            => false,
+            'sub_account_type'  => $sub_account_type,
+            'chart_of_account'  => $chart_of_account,
         ];
 
-        return view('cms.chart_of_account.sub_account_type.add-sub_account_type', $data);
+        return view('cms.chart_of_account.list_of_accounts.add-list_of_accounts', $data);
     }
 
     /**
@@ -76,18 +83,20 @@ class ListOfAccountController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, ChartofAccount $chart_of_account)
+    public function store(Request $request,ChartOfAccount $chart_of_account ,SubAccountType $sub_account_type)
     {
         $request->validate([
-            'name' => 'required|max:191|unique:mf_networks,name'
+            'name' => 'required|max:191|unique:list_of_accounts,name'
         ]);
 
-        SubAccountType::create($request->except('_token'));
+        $data = $request->all();
+        $data['sub_account_type_id'] = $sub_account_type->id;
+        ListofAccount::create($data);
 
         // form helpers.php
         logAction($request);
 
-        return redirect()->route('sub_account_type');
+        return redirect()->route('list_of_account',[$chart_of_account->id,$sub_account_type->id]);
     }
 
     /**
@@ -96,14 +105,16 @@ class ListOfAccountController extends Controller
      * @param  \App\SubAccountType  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(ChartofAccount $chart_of_account, SubAccountType $sub_account_type)
+    public function edit(ChartOfAccount $chart_of_account ,SubAccountType $sub_account_type, ListofAccount $list_of_account)
     {
         $data = [
-            'network' => $sub_account_type,
-            'isEdit' => true,
+            'isEdit'            => true,
+            'sub_account_type'  => $sub_account_type,
+            'chart_of_account'  => $chart_of_account,
+            'list_of_account'   => $list_of_account,
         ];
 
-        return view('cms.chart_of_account.sub_account_type.add-sub_account_type', $data);
+        return view('cms.chart_of_account.list_of_accounts.add-list_of_accounts', $data);
     }
 
     /**
@@ -113,19 +124,20 @@ class ListOfAccountController extends Controller
      * @param  \App\SubAccountType  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,ChartofAccount $chart_of_account, SubAccountType $sub_account_type)
+    public function update(Request $request,ChartOfAccount $chart_of_account ,SubAccountType $sub_account_type, ListofAccount $list_of_account)
     {
         $request->validate([
-            'name' => "required|max:191|unique:mf_networks,name,{$sub_account_type->id}"
+            'name' => "required|max:191|unique:list_of_accounts,name,{$list_of_account->id}"
         ]);
 
-        $sub_account_type->name = $request->name;
-        $sub_account_type->save();
+        $list_of_account->name                  = $request->name;
+        $list_of_account->sub_account_type_id   = $sub_account_type->id;
+        $list_of_account->save();
 
         // form helpers.php
         logAction($request);
 
-        return redirect()->route('sub_account_type');
+        return redirect()->route('list_of_account',[$chart_of_account->id,$sub_account_type->id]);
     }
 
     /**
@@ -134,7 +146,7 @@ class ListOfAccountController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function status(Request $request)
+    public function status(Request $request,$chart_of_account,$sub_account_type)
     {
         $response['status'] = false;
         $response['message'] = 'Oops! Something went wrong.';
@@ -142,7 +154,7 @@ class ListOfAccountController extends Controller
         $id = $request->input('id');
         $status = $request->input('status');
 
-        $item = SubAccountType::find($id);
+        $item = ListofAccount::find($id);
 
         if ($item->update(['status' => $status])) {
 
@@ -150,7 +162,7 @@ class ListOfAccountController extends Controller
             logAction($request);
 
             $response['status'] = true;
-            $response['message'] = 'User status updated successfully.';
+            $response['message'] = 'List of Account Status updated successfully.';
             return response()->json($response, 200);
         }
 
@@ -163,13 +175,13 @@ class ListOfAccountController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(Request $request)
+    public function destroy(Request $request,$chart_of_account,$sub_account_type)
     {
-        $user = SubAccountType::findOrFail($request->id);
+        $user = ListofAccount::findOrFail($request->id);
 
         // apply your conditional check here
         if ( false ) {
-            $response['error'] = 'This Network has something assigned to it.';
+            $response['error'] = 'Oops something went wrong';
             return response()->json($response, 409);
         } else {
             $response = $user->delete();
@@ -177,6 +189,7 @@ class ListOfAccountController extends Controller
             // form helpers.php
             logAction($request);
 
+            $response['success'] = 'List of Account Deleted Successfully!';
             return response()->json($response, 200);
         }
     }

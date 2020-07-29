@@ -4,6 +4,8 @@ namespace App\Http\Controllers\CMS;
 
 use App\Http\Controllers\Controller;
 use App\ChartofAccount;
+use App\SubAccountType;
+use App\ListofAccount;
 use Illuminate\Http\Request;
 use DataTables;
 use DB;
@@ -166,7 +168,10 @@ class ChartOfAccountController extends Controller
     public function destroy(Request $request)
     {
         $user = ChartOfAccount::findOrFail($request->id);
-
+        $sub_type = SubAccountType::where('chart_of_account_id',$request->id);
+        $sub_id = $sub_type->pluck('id');
+        ListofAccount::whereIn('sub_account_type_id',$sub_id)->delete();
+        $sub_type->delete();
         // apply your conditional check here
         if ( false ) {
             $response['error'] = 'This Chart Of Account has something assigned to it.';

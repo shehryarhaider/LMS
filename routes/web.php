@@ -43,6 +43,7 @@ Route::group(['middleware' => ['auth','userStatus','lastLogin','optimizeImages']
         Route::get('/chart_of_account/{chart_of_account}/sub_account_type/{sub_account_type}/list_of_account/datatable', "ListofAccountController@datatable")->name('list_of_account.datatable');
         Route::get('/customers/datatable', 'CustomerController@datatable')->name('customers.datatable');
         Route::get('/vendors/datatable', 'VendorController@datatable')->name('vendors.datatable');
+        Route::get('/bank_account/datatable', 'BankAccountController@datatable')->name('bank_account.datatable');
 
 
 
@@ -171,6 +172,15 @@ Route::group(['middleware' => ['auth','userStatus','lastLogin','optimizeImages']
             Route::put('/vendors/{vendor}/edit', "VendorController@update")->name('vendors.update');
             Route::patch('/vendors/status', "VendorController@status")->name('vendors.status');
             Route::delete('/vendors/destroy', "VendorController@destroy")->name('vendors.destroy');
+
+            //Vendor
+            Route::get('/bank_account', "BankAccountController@index")->name('bank_account');
+            Route::get('/bank_account/add', "BankAccountController@create")->name('bank_account.create');
+            Route::post('/bank_account/add', "BankAccountController@store")->name('bank_account.store');
+            Route::get('/bank_account/{bank_account}/edit', "BankAccountController@edit")->name('bank_account.edit');
+            Route::put('/bank_account/{bank_account}/edit', "BankAccountController@update")->name('bank_account.update');
+            Route::patch('/bank_account/status', "BankAccountController@status")->name('bank_account.status');
+            Route::delete('/bank_account/destroy', "BankAccountController@destroy")->name('bank_account.destroy');
 
             //Managing Committee
             Route::get('/terms/{term}/managing_committee', "ManagingCommitteeController@index")->name('managing_committee');

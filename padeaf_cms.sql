@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 29, 2020 at 11:21 AM
+-- Generation Time: Jul 30, 2020 at 11:56 AM
 -- Server version: 10.4.10-MariaDB
 -- PHP Version: 7.1.33
 
@@ -446,6 +446,44 @@ INSERT INTO `client_files` (`id`, `file_name`, `file`, `created_at`, `updated_at
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `customers`
+--
+
+CREATE TABLE `customers` (
+  `id` int(11) NOT NULL,
+  `account_name` varchar(100) NOT NULL,
+  `contact_person` varchar(11) NOT NULL,
+  `address` text NOT NULL,
+  `region` varchar(50) NOT NULL,
+  `sub_region` varchar(50) NOT NULL,
+  `telephone` varchar(11) NOT NULL,
+  `mobile` varchar(11) NOT NULL,
+  `fax` varchar(100) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `website` varchar(100) NOT NULL,
+  `st_reg_no` varchar(50) NOT NULL,
+  `cnic` varchar(13) NOT NULL,
+  `business_sector` varchar(50) NOT NULL,
+  `acc_manager` varchar(50) NOT NULL,
+  `credit_limit` varchar(20) NOT NULL,
+  `credit_terms` varchar(50) NOT NULL,
+  `remarks` varchar(200) NOT NULL,
+  `customer_type` tinyint(4) NOT NULL COMMENT '0 is cash customer | 1 is credit customer',
+  `status` tinyint(4) NOT NULL DEFAULT 1,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `customers`
+--
+
+INSERT INTO `customers` (`id`, `account_name`, `contact_person`, `address`, `region`, `sub_region`, `telephone`, `mobile`, `fax`, `email`, `website`, `st_reg_no`, `cnic`, `business_sector`, `acc_manager`, `credit_limit`, `credit_terms`, `remarks`, `customer_type`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'Umair', '03162525211', 'landhi krachi', 'Sindh', 'Landhi', '0215544225', '03332312521', 'fax temp', 'shehryar@email.com', 'shehryar.com', '25', '420173070953', 'karachi', 'shehryar', '15', '2256125', 'remairkakasdfa asdjfklasjflaksd', 0, 1, '2020-07-30 09:32:58', '2020-07-30 09:32:58');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `list_of_accounts`
 --
 
@@ -463,9 +501,7 @@ CREATE TABLE `list_of_accounts` (
 --
 
 INSERT INTO `list_of_accounts` (`id`, `sub_account_type_id`, `name`, `status`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Cash', 1, '2020-07-29 06:57:28', '2020-07-29 06:57:28'),
-(2, 1, 'Petty Cash', 1, '2020-07-29 08:12:24', '2020-07-29 08:12:24'),
-(3, 1, 'sdasdfasdfasdfdf', 1, '2020-07-29 08:13:01', '2020-07-29 08:13:01');
+(1, 1, 'list of account', 1, '2020-07-29 06:57:28', '2020-07-22 04:48:07');
 
 -- --------------------------------------------------------
 
@@ -716,14 +752,15 @@ INSERT INTO `um_menus` (`id`, `parent_id`, `icon`, `name`, `route`, `is_seo`, `i
 (32, 1, NULL, 'Users', 'users', 0, 0, NULL, NULL, NULL, 1, 1, '2019-04-25 07:34:26', '2019-04-25 07:37:52'),
 (33, 25, NULL, 'Slider Images', 'slider_image', 0, 0, NULL, NULL, NULL, 2, 1, '2019-04-26 06:38:02', '2019-04-26 07:09:58'),
 (35, 25, NULL, 'Media Videos', 'media_videos', 0, 0, NULL, NULL, NULL, 3, 1, '2019-04-29 07:51:38', '2019-04-29 07:51:38'),
-(42, 4, NULL, 'Event Categories', 'term', 0, 0, NULL, NULL, NULL, 2, 1, '2019-04-30 12:22:50', '2020-07-22 09:35:42'),
+(42, 4, NULL, 'Event Categories', 'customers', 0, 0, NULL, NULL, NULL, 3, 1, '2019-04-30 12:22:50', '2020-07-22 04:52:05'),
 (43, 25, NULL, 'Gallery', 'gallery', 0, 0, NULL, NULL, NULL, 5, 1, '2019-05-02 06:04:57', '2019-05-02 06:04:57'),
 (44, 25, NULL, 'News', 'news', 0, 0, NULL, NULL, NULL, 5, 1, '2019-05-02 07:37:14', '2019-05-02 07:37:14'),
 (45, 25, NULL, 'Patrons', 'patrons', 0, 0, NULL, NULL, NULL, 6, 1, '2019-05-02 09:27:45', '2019-05-07 06:35:33'),
-(46, 4, NULL, 'Donate Now Category', 'donate_now_categories', 0, 0, NULL, NULL, NULL, 3, 1, '2019-05-02 09:50:53', '2019-05-02 11:05:44'),
+(46, 4, NULL, 'Donate Now Category', 'donate_now_categories', 0, 0, NULL, NULL, NULL, 4, 1, '2019-05-02 09:50:53', '2020-07-22 04:50:22'),
 (47, 25, NULL, 'Donate Now', 'donate_now', 0, 0, NULL, NULL, NULL, 7, 1, '2019-05-02 10:23:29', '2019-05-07 06:35:34'),
 (48, 5, NULL, 'Sub Account Types', 'sub_account_type', 0, 0, NULL, NULL, NULL, 2, 1, '2020-07-22 09:40:45', '2020-07-22 09:44:06'),
-(49, 48, NULL, 'List of Account', 'list_of_account', 0, 0, NULL, NULL, NULL, 1, 1, '2020-07-29 07:15:32', '2020-07-29 07:15:32');
+(49, 48, NULL, 'List of Account', 'list_of_account', 0, 0, NULL, NULL, NULL, 1, 1, '2020-07-29 07:15:32', '2020-07-29 07:15:32'),
+(50, 4, NULL, 'Customers', 'customers', 0, 0, NULL, NULL, NULL, 2, 1, '2020-07-22 04:49:58', '2020-07-22 04:49:58');
 
 -- --------------------------------------------------------
 
@@ -1559,6 +1596,12 @@ ALTER TABLE `client_files`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `customers`
+--
+ALTER TABLE `customers`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `list_of_accounts`
 --
 ALTER TABLE `list_of_accounts`
@@ -1709,10 +1752,16 @@ ALTER TABLE `client_files`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `customers`
+--
+ALTER TABLE `customers`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `list_of_accounts`
 --
 ALTER TABLE `list_of_accounts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `migrations`
@@ -1760,7 +1809,7 @@ ALTER TABLE `sm_faq_categories`
 -- AUTO_INCREMENT for table `um_menus`
 --
 ALTER TABLE `um_menus`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT for table `um_permissions`

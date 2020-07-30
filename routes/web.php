@@ -41,6 +41,7 @@ Route::group(['middleware' => ['auth','userStatus','lastLogin','optimizeImages']
         Route::get('/chart_of_account/datatable', 'ChartOfAccountController@datatable')->name('chart_of_account.datatable');
         Route::get('/chart_of_account/{chart_of_account}/sub_account_types/datatable', "SubAccountTypeController@datatable")->name('sub_account_type.datatable');
         Route::get('/chart_of_account/{chart_of_account}/sub_account_type/{sub_account_type}/list_of_account/datatable', "ListofAccountController@datatable")->name('list_of_account.datatable');
+        Route::get('/customers/datatable', 'CustomerController@datatable')->name('customers.datatable');
 
 
 
@@ -152,16 +153,14 @@ Route::group(['middleware' => ['auth','userStatus','lastLogin','optimizeImages']
             Route::delete('/chart_of_account/{chart_of_account}/sub_account_types/{sub_account_type}/list_of_accounts/destroy', "ListofAccountController@destroy")->name('list_of_account.destroy');
 
 
-            //Term
-            Route::get('/terms', "TermsController@index")->name('term');
-            Route::get('/terms/add', "TermsController@create")->name('term.create');
-            Route::post('/terms/add', "TermsController@store")->name('term.store');
-            Route::get('/terms/{term}/edit', "TermsController@edit")->name('term.edit');
-            Route::put('/terms/{term}/edit', "TermsController@update")->name('term.update');
-            Route::patch('/terms/status', "TermsController@status")->name('term.status');
-            Route::delete('/terms/destroy', "TermsController@destroy")->name('term.destroy');
-
-
+            //Customers
+            Route::get('/customers', "CustomerController@index")->name('customers');
+            Route::get('/customers/add', "CustomerController@create")->name('customers.create');
+            Route::post('/customers/add', "CustomerController@store")->name('customers.store');
+            Route::get('/customers/{customer}/edit', "CustomerController@edit")->name('customers.edit');
+            Route::put('/customers/{customer}/edit', "CustomerController@update")->name('customers.update');
+            Route::patch('/customers/status', "CustomerController@status")->name('customers.status');
+            Route::delete('/customers/destroy', "CustomerController@destroy")->name('customers.destroy');
 
             //Managing Committee
             Route::get('/terms/{term}/managing_committee', "ManagingCommitteeController@index")->name('managing_committee');
@@ -171,9 +170,6 @@ Route::group(['middleware' => ['auth','userStatus','lastLogin','optimizeImages']
             Route::put('/terms/{term}/managing_committee/{managing_committee}/update', "ManagingCommitteeController@update")->name('managing_committee.update');
             Route::patch('/managing_committee/status', "ManagingCommitteeController@status")->name('managing_committee.status');
             Route::delete('/managing_committee/destroy', "ManagingCommitteeController@destroy")->name('managing_committee.destroy');
-
-
-
 
             //Managing Committee
             Route::get('/terms/{term}/executive_committee', "ExecutiveCommitteeController@index")->name('executive_committee');

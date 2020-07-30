@@ -1,6 +1,6 @@
 @extends('cms.layouts.masterpage')
 
-@section('title', 'List of Accounts')
+@section('title', 'Customers')
 
 @section('top-styles')
 <!-- Plugins css-->
@@ -37,13 +37,7 @@
               <i class="fa fa-home"></i>
             </a>
           </li>
-          <li class="breadcrumb-item">
-            <a href="{{route('chart_of_account')}}">Chart of Account : {{$chart_of_account->name}}</a>
-          </li>
-          <li class="breadcrumb-item">
-            <a href="{{route('sub_account_type',[$chart_of_account->id])}}">Sub Account Type : {{$sub_account_type->name}}</a>
-          </li>
-          <li class="breadcrumb-item active">List of Accounts</li>
+          <li class="breadcrumb-item active">Customers</li>
         </ol>
       </div>
     </div>
@@ -51,12 +45,12 @@
     <div class="portlet">
       <div class="portlet-heading bg-light-theme">
         <h3 class="portlet-title">
-          <i class="ti-sharethis mr-2"></i> List of Accounts</h3>
+          <i class="ti-sharethis mr-2"></i> Customers</h3>
         <div class="portlet-widgets">
           @if ( $permissions == "is_admin" || in_array( 'add', $permissions ) )
-            <a href="{{route('list_of_account.create',[$chart_of_account->id,$sub_account_type->id])}}">
+            <a href="{{route('customers.create')}}">
               <button class="btn btn-white btn-custom-white btn-custom btn-rounded waves-effect" type="button">
-                <i class="fa fa-plus"></i> Add List of Account</button>
+                <i class="fa fa-plus"></i> Add Customer</button>
             </a>
           @endif
         </div>
@@ -65,17 +59,35 @@
       <div id="bg-primary1" class="panel-collapse collapse show">
         <div class="portlet-body">
           <div class="custom_datatable">
-            <table id="datatable" class="table table-bordered table-striped" width="100%" cellspacing="0" cellpadding="0">
+
+            <table id="datatable" class="table table-bordered table-striped table-responsive" width="100%" cellspacing="0" cellpadding="0">
               <thead>
+                {{-- 'id','customer_type','name','contact_person','telephone','mobile','cnic','email','region','sub_region','address','credit_limit','credit_terms','remarks','st_reg_no','website','fax', 'status' --}}
                 <tr>
                   <th class="no-sort text-center" width="5%">S.No</th>
-                  <th>Name</th>
+                  <th>Customer Type</th>
+                  <th>Account Name</th>
+                  <th>Contact Person</th>
+                  <th>Telephone</th>
+                  <th>Mobile</th>
+                  <th>CNIC</th>
+                  <th>Email</th>
+                  <th>Region</th>
+                  <th>Sub Region</th>
+                  <th>Address</th>
+                  <th>Credit Limit</th>
+                  <th>Credit Terms</th>
+                  <th>Remarks</th>
+                  <th>S.T Reg NO</th>
+                  <th>Website</th>
+                  <th>Fax</th>
                   @if ($count > 0)
                   <th class="no-sort text-center" width="10%">Actions</th>
                   @endif
                 </tr>
               </thead>
             </table>
+
           </div>
         </div>
       </div>
@@ -113,14 +125,28 @@
 @section('bottom-bot-scripts')
 <script type="text/javascript">
   $(document).ready(function () {
-
     var table = $('#datatable').DataTable({
       processing: true,
       serverSide: true,
-      ajax: '{{ route("list_of_account.datatable",[$chart_of_account->id,$sub_account_type->id]) }}',
+      ajax: '{{ route("customers.datatable") }}',
       "columns": [
         { "data": "id", "defaultContent": "" },
-        { "data": "name", "defaultContent": "" },
+        { "data": "customer_type", "defaultContent": "" },
+        { "data": "account_name", "defaultContent": "" },
+        { "data": "contact_person", "defaultContent": "" },
+        { "data": "telephone", "defaultContent": "" },
+        { "data": "mobile", "defaultContent": "" },
+        { "data": "cnic", "defaultContent": "" },
+        { "data": "email", "defaultContent": "" },
+        { "data": "region", "defaultContent": "" },
+        { "data": "sub_region", "defaultContent": "" },
+        { "data": "address", "defaultContent": "" },
+        { "data": "credit_limit", "defaultContent": "" },
+        { "data": "credit_terms", "defaultContent": "" },
+        { "data": "remarks", "defaultContent": "" },
+        { "data": "st_reg_no", "defaultContent": "" },
+        { "data": "website", "defaultContent": "" },
+        { "data": "fax", "defaultContent": "" },
          @if ($count > 0)
         { "data": "id", "defaultContent": "" },
         @endif
@@ -135,15 +161,19 @@
           return meta.row + 1;
         },
       },
+      {
+        "targets": 1,
+        "render": function (data, type, row, meta) {
+          var value = data == 0 ? 'Cash Customer' : 'Credit Customer';
+          return value;
+        },
+      },
       @if ($count > 0)
       {
         "targets": -1,
         "render": function (data, type, row, meta) {
-          console.log(row);
-          var edit = '{{route("list_of_account.edit",[":c_id",":s_id",":id"])}}';
+          var edit = '{{route("customers.edit",[":id"])}}';
           edit = edit.replace(':id', data);
-          edit = edit.replace(':c_id', row.sub_account_type.chart_of_account_id);
-          edit = edit.replace(':s_id', row.sub_account_type_id);
           var checked = row.status == 1 ? 'checked' : null;
           return `
           @if ( $permissions == "is_admin" || in_array( 'edit', $permissions ) )
@@ -195,7 +225,7 @@
           }
 
           axios
-            .post('{{route("list_of_account.status",[$chart_of_account->id,$sub_account_type->id])}}', {
+            .post('{{route("customers.status")}}', {
               _token: '{{csrf_token()}}',
               _method: 'patch',
               id: id,
@@ -224,7 +254,7 @@
           }).then(function (result) {
             if (result.value) {
             axios
-              .post('{{route("list_of_account.destroy",[$chart_of_account->id,$sub_account_type->id])}}', {
+              .post('{{route("customers.destroy")}}', {
                 _method: 'delete',
                 _token: '{{csrf_token()}}',
                 id: deleteId,

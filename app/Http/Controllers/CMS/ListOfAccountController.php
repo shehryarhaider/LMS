@@ -177,20 +177,17 @@ class ListofAccountController extends Controller
      */
     public function destroy(Request $request,$chart_of_account,$sub_account_type)
     {
-        $user = ListofAccount::findOrFail($request->id);
+        $list_of_account = ListofAccount::find($request->id);
 
         // apply your conditional check here
-        if ( false ) {
-            $response['error'] = 'Oops something went wrong';
-            return response()->json($response, 409);
-        } else {
-            $response = $user->delete();
-
+        if ($list_of_account->delete()) {
             // form helpers.php
             logAction($request);
 
             $response['success'] = 'List of Account Deleted Successfully!';
             return response()->json($response, 200);
         }
+        $response['error'] = 'Oops something went wrong';
+        return response()->json($response, 409);
     }
 }

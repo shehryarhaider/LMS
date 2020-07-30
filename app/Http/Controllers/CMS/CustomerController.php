@@ -3,13 +3,11 @@
 namespace App\Http\Controllers\CMS;
 
 use App\Http\Controllers\Controller;
-use App\SubAccountType;
-use App\ChartofAccount;
-use App\ListofAccount;
+use App\Customer;
 use Illuminate\Http\Request;
 use DataTables;
 use DB;
-class SubAccountTypeController extends Controller
+class CustomerController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,15 +15,15 @@ class SubAccountTypeController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, ChartofAccount $chart_of_account)
+    public function index(Request $request)
     {
         //getCurrentMenuId used from helpers.php
         $menu_id = getCurrentMenuId($request);
 
         //getFrontEndPermissionsSetup used from helpers.php
         $data = getFrontEndPermissionsSetup($menu_id);
-        $data['chart_of_account'] =  $chart_of_account;
-        return view('cms.chart_of_account.sub_account_type.sub_account_type', $data);
+
+        return view('cms.customers.customers', $data);
     }
 
     /**
@@ -33,29 +31,13 @@ class SubAccountTypeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function datatable($chart_of_account)
+    public function datatable()
     {
         // gets the selects colums only
-        // $roles = SubAccountType::select(['id','name', 'status']);
-        $roles = SubAccountType::where('chart_of_account_id',$chart_of_account)->select(['id','chart_of_account_id','name', 'status']);
+        // $roles = Customer::select(['id','name', 'status']);
+        $roles = DB::table('customers')->select(['id','customer_type','account_name','contact_person','telephone','mobile','cnic','email','region','sub_region','address','credit_limit','credit_terms','remarks','st_reg_no','website','fax', 'status']);
 
         return DataTables::of($roles)->make();
-    }
-
-    /**
-     * the ajax validator for this controller
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  Int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function validater(Request $request, $id)
-    {
-        $request->validate([
-            'name' => "required|max:191|unique:mt_sub_accounts_types,name,{$id}"
-        ]);
-
-        return response()->json(['success'], 200);
     }
 
     /**
@@ -63,14 +45,13 @@ class SubAccountTypeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(ChartofAccount $chart_of_account)
+    public function create()
     {
         $data = [
-            'isEdit'            => false,
-            'chart_of_account'  => $chart_of_account,
+            'isEdit' => false,
         ];
 
-        return view('cms.chart_of_account.sub_account_type.add-sub_account_type', $data);
+        return view('cms.customers.add-customer', $data);
     }
 
     /**
@@ -79,59 +60,55 @@ class SubAccountTypeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, ChartofAccount $chart_of_account)
+    public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|max:191|unique:mt_sub_accounts_types,name'
+            'account_name' => 'required'
         ]);
 
-        $data = $request->all();
-        $data['chart_of_account_id'] = $chart_of_account->id;
-        SubAccountType::create($data);
+        Customer::create($request->except('_token'));
 
         // form helpers.php
         logAction($request);
 
-        return redirect()->route('sub_account_type',[$chart_of_account->id]);
+        return redirect()->route('customers');
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\SubAccountType  $id
+     * @param  \App\Customer  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(ChartofAccount $chart_of_account, SubAccountType $sub_account_type)
+    public function edit(Customer $customer)
     {
         $data = [
-            'sub_account_type'  => $sub_account_type,
-            'chart_of_account'  => $chart_of_account,
-            'isEdit'            => true,
+            'customer' => $customer,
+            'isEdit' => true,
         ];
 
-        return view('cms.chart_of_account.sub_account_type.add-sub_account_type', $data);
+        return view('cms.customers.add-customer', $data);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\SubAccountType  $id
+     * @param  \App\Customer  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,ChartofAccount $chart_of_account, SubAccountType $sub_account_type)
+    public function update(Request $request,Customer $customer)
     {
         $request->validate([
-            'name' => "required|max:191|unique:mt_sub_accounts_types,name,{$sub_account_type->id}"
+            'name' => "required|max:191|unique:customers,name,{$customer->id}"
         ]);
 
-        $sub_account_type->name = $request->name;
-        $sub_account_type->save();
+        $customer->update($request->except('_token'));
 
         // form helpers.php
         logAction($request);
 
-        return redirect()->route('sub_account_type',[$chart_of_account->id]);
+        return redirect()->route('customers');
     }
 
     /**
@@ -148,7 +125,7 @@ class SubAccountTypeController extends Controller
         $id = $request->input('id');
         $status = $request->input('status');
 
-        $item = SubAccountType::find($id);
+        $item = Customer::find($id);
 
         if ($item->update(['status' => $status])) {
 
@@ -156,7 +133,7 @@ class SubAccountTypeController extends Controller
             logAction($request);
 
             $response['status'] = true;
-            $response['message'] = 'User status updated successfully.';
+            $response['message'] = 'Customers updated successfully.';
             return response()->json($response, 200);
         }
 
@@ -171,15 +148,14 @@ class SubAccountTypeController extends Controller
      */
     public function destroy(Request $request)
     {
-        $user = SubAccountType::findOrFail($request->id);
-        ListofAccount::where('sub_account_type_id',$request->id)->delete();
+        $customer = Customer::findOrFail($request->id);
         // apply your conditional check here
         if ( false ) {
-            $response['error'] = 'Oops Something went Wrong!';
+            $response['error'] = 'Oops Something went wrong!';
             return response()->json($response, 409);
         } else {
-            $response = $user->delete();
-
+            $customer->delete();
+            $response['success'] = 'Customer Deleted Successfully!';
             // form helpers.php
             logAction($request);
 

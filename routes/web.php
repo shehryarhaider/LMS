@@ -42,6 +42,7 @@ Route::group(['middleware' => ['auth','userStatus','lastLogin','optimizeImages']
         Route::get('/chart_of_account/{chart_of_account}/sub_account_types/datatable', "SubAccountTypeController@datatable")->name('sub_account_type.datatable');
         Route::get('/chart_of_account/{chart_of_account}/sub_account_type/{sub_account_type}/list_of_account/datatable', "ListofAccountController@datatable")->name('list_of_account.datatable');
         Route::get('/customers/datatable', 'CustomerController@datatable')->name('customers.datatable');
+        Route::get('/vendors/datatable', 'VendorController@datatable')->name('vendors.datatable');
 
 
 
@@ -161,6 +162,15 @@ Route::group(['middleware' => ['auth','userStatus','lastLogin','optimizeImages']
             Route::put('/customers/{customer}/edit', "CustomerController@update")->name('customers.update');
             Route::patch('/customers/status', "CustomerController@status")->name('customers.status');
             Route::delete('/customers/destroy', "CustomerController@destroy")->name('customers.destroy');
+
+            //Vendor
+            Route::get('/vendors', "VendorController@index")->name('vendors');
+            Route::get('/vendors/add', "VendorController@create")->name('vendors.create');
+            Route::post('/vendors/add', "VendorController@store")->name('vendors.store');
+            Route::get('/vendors/{vendor}/edit', "VendorController@edit")->name('vendors.edit');
+            Route::put('/vendors/{vendor}/edit', "VendorController@update")->name('vendors.update');
+            Route::patch('/vendors/status', "VendorController@status")->name('vendors.status');
+            Route::delete('/vendors/destroy', "VendorController@destroy")->name('vendors.destroy');
 
             //Managing Committee
             Route::get('/terms/{term}/managing_committee', "ManagingCommitteeController@index")->name('managing_committee');

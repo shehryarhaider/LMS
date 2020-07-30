@@ -7,7 +7,7 @@ use App\Customer;
 use Illuminate\Http\Request;
 use DataTables;
 use DB;
-class CustomerController extends Controller
+class VendorController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -23,7 +23,7 @@ class CustomerController extends Controller
         //getFrontEndPermissionsSetup used from helpers.php
         $data = getFrontEndPermissionsSetup($menu_id);
 
-        return view('cms.customers.customers', $data);
+        return view('cms.vendors.vendors', $data);
     }
 
     /**
@@ -35,7 +35,7 @@ class CustomerController extends Controller
     {
         // gets the selects colums only
         // $roles = Customer::select(['id','name', 'status']);
-        $roles = DB::table('customers')->where('type',0)->select(['id','field_type','account_name','contact_person','telephone','mobile','cnic','email','region','sub_region','address','credit_limit','credit_terms','remarks','st_reg_no','website','fax', 'status']);
+        $roles = DB::table('customers')->where('type',1)->select(['id','field_type','account_name','contact_person','telephone','mobile','cnic','email','region','sub_region','address','credit_limit','credit_terms','remarks','st_reg_no','website','fax', 'status']);
 
         return DataTables::of($roles)->make();
     }
@@ -51,7 +51,7 @@ class CustomerController extends Controller
             'isEdit' => false,
         ];
 
-        return view('cms.customers.add-customer', $data);
+        return view('cms.vendors.add-vendor', $data);
     }
 
     /**
@@ -76,7 +76,7 @@ class CustomerController extends Controller
         // form helpers.php
         logAction($request);
 
-        return redirect()->route('customers');
+        return redirect()->route('vendors');
     }
 
     /**
@@ -85,14 +85,14 @@ class CustomerController extends Controller
      * @param  \App\Customer  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Customer $customer)
+    public function edit(Customer $vendor)
     {
         $data = [
-            'customer' => $customer,
+            'vendor' => $vendor,
             'isEdit' => true,
         ];
 
-        return view('cms.customers.add-customer', $data);
+        return view('cms.vendors.add-vendor', $data);
     }
 
     /**
@@ -102,7 +102,7 @@ class CustomerController extends Controller
      * @param  \App\Customer  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,Customer $customer)
+    public function update(Request $request,Customer $vendor)
     {
         $request->validate([
             'account_name'      => 'required',
@@ -113,12 +113,12 @@ class CustomerController extends Controller
             'credit_limit'      => 'max:11',
         ]);
 
-        $customer->update($request->except('_token'));
+        $vendor->update($request->except('_token'));
 
         // form helpers.php
         logAction($request);
 
-        return redirect()->route('customers');
+        return redirect()->route('vendors');
     }
 
     /**
@@ -158,13 +158,13 @@ class CustomerController extends Controller
      */
     public function destroy(Request $request)
     {
-        $customer = Customer::findOrFail($request->id);
+        $vendor = Customer::findOrFail($request->id);
         // apply your conditional check here
         if ( false ) {
             $response['error'] = 'Oops Something went wrong!';
             return response()->json($response, 409);
         } else {
-            $customer->delete();
+            $vendor->delete();
             $response['success'] = 'Customer Deleted Successfully!';
             // form helpers.php
             logAction($request);

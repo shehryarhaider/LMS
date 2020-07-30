@@ -1,6 +1,6 @@
 @extends('cms.layouts.masterpage')
 
-@section('title', 'Customers')
+@section('title', 'Vendors')
 
 @section('top-styles')
 <!-- Plugins css-->
@@ -37,7 +37,7 @@
               <i class="fa fa-home"></i>
             </a>
           </li>
-          <li class="breadcrumb-item active">Customers</li>
+          <li class="breadcrumb-item active">Vendors</li>
         </ol>
       </div>
     </div>
@@ -45,12 +45,12 @@
     <div class="portlet">
       <div class="portlet-heading bg-light-theme">
         <h3 class="portlet-title">
-          <i class="ti-sharethis mr-2"></i> Customers</h3>
+          <i class="ti-sharethis mr-2"></i> Vendors</h3>
         <div class="portlet-widgets">
           @if ( $permissions == "is_admin" || in_array( 'add', $permissions ) )
-            <a href="{{route('customers.create')}}">
+            <a href="{{route('vendors.create')}}">
               <button class="btn btn-white btn-custom-white btn-custom btn-rounded waves-effect" type="button">
-                <i class="fa fa-plus"></i> Add Customer</button>
+                <i class="fa fa-plus"></i> Add Vendor</button>
             </a>
           @endif
         </div>
@@ -62,10 +62,10 @@
 
             <table id="datatable" class="table table-bordered table-striped table-responsive" width="100%" cellspacing="0" cellpadding="0">
               <thead>
-                {{-- 'id','field_type','name','contact_person','telephone','mobile','cnic','email','region','sub_region','address','credit_limit','credit_terms','remarks','st_reg_no','website','fax', 'status' --}}
+                {{-- 'id','Vendor_type','name','contact_person','telephone','mobile','cnic','email','region','sub_region','address','credit_limit','credit_terms','remarks','st_reg_no','website','fax', 'status' --}}
                 <tr>
                   <th class="no-sort text-center" width="5%">S.No</th>
-                  <th>Customer Type</th>
+                  <th>Vendor Type</th>
                   <th>Account Name</th>
                   <th>Contact Person</th>
                   <th>Telephone</th>
@@ -128,10 +128,10 @@
     var table = $('#datatable').DataTable({
       processing: true,
       serverSide: true,
-      ajax: '{{ route("customers.datatable") }}',
+      ajax: '{{ route("vendors.datatable") }}',
       "columns": [
         { "data": "id", "defaultContent": "" },
-        { "data": "field_type", "defaultContent": "" },
+        { "data": "customer_type", "defaultContent": "" },
         { "data": "account_name", "defaultContent": "" },
         { "data": "contact_person", "defaultContent": "" },
         { "data": "telephone", "defaultContent": "" },
@@ -172,7 +172,7 @@
       {
         "targets": -1,
         "render": function (data, type, row, meta) {
-          var edit = '{{route("customers.edit",[":id"])}}';
+          var edit = '{{route("vendors.edit",[":id"])}}';
           edit = edit.replace(':id', data);
           var checked = row.status == 1 ? 'checked' : null;
           return `
@@ -225,7 +225,7 @@
           }
 
           axios
-            .post('{{route("customers.status")}}', {
+            .post('{{route("vendors.status")}}', {
               _token: '{{csrf_token()}}',
               _method: 'patch',
               id: id,
@@ -254,7 +254,7 @@
           }).then(function (result) {
             if (result.value) {
             axios
-              .post('{{route("customers.destroy")}}', {
+              .post('{{route("vendors.destroy")}}', {
                 _method: 'delete',
                 _token: '{{csrf_token()}}',
                 id: deleteId,
@@ -264,7 +264,7 @@
 
                 swal(
                   'Deleted!',
-                  'Customer has been deleted.',
+                  'Vendor has been deleted.',
                   'success'
                 )
 

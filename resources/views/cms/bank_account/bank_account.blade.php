@@ -65,6 +65,7 @@
                 {{-- 'id','field_type','name','contact_person','telephone','mobile','cnic','email','region','sub_region','address','credit_limit','credit_terms','remarks','st_reg_no','website','fax', 'status' --}}
                 <tr>
                   <th class="no-sort text-center" width="5%">S.No</th>
+                  <th>Bank Type</th>
                   <th>Account Code</th>
                   <th>Account Name</th>
                   <th>Account Title</th>
@@ -126,24 +127,20 @@
     var table = $('#datatable').DataTable({
       processing: true,
       serverSide: true,
-      ajax: '{{ route("bank_account.datatable") }}',
+      ajax: '{{ route("bank_account.datatable") }}' b,
       "columns": [
         { "data": "id", "defaultContent": "" },
-        { "data": "field_type", "defaultContent": "" },
+        { "data": "bank_type_id", "defaultContent": "" },
+        { "data": "account_code", "defaultContent": "" },
         { "data": "account_name", "defaultContent": "" },
+        { "data": "account_title", "defaultContent": "" },
         { "data": "contact_person", "defaultContent": "" },
         { "data": "telephone", "defaultContent": "" },
         { "data": "mobile", "defaultContent": "" },
-        { "data": "cnic", "defaultContent": "" },
         { "data": "email", "defaultContent": "" },
-        { "data": "region", "defaultContent": "" },
-        { "data": "sub_region", "defaultContent": "" },
         { "data": "address", "defaultContent": "" },
-        { "data": "credit_limit", "defaultContent": "" },
-        { "data": "credit_terms", "defaultContent": "" },
         { "data": "remarks", "defaultContent": "" },
-        { "data": "st_reg_no", "defaultContent": "" },
-        { "data": "website", "defaultContent": "" },
+         { "data": "website", "defaultContent": "" },
         { "data": "fax", "defaultContent": "" },
          @if ($count > 0)
         { "data": "id", "defaultContent": "" },

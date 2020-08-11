@@ -37,7 +37,7 @@ class BankAccountController extends Controller
     {
         // gets the selects colums only
         // $roles = BankAccount::select(['id','name', 'status']);
-        $roles = DB::table('bank_accounts')->select(['id','bank_type_id','account_code','account_name','contact_person','telephone','mobile','cnic','email','region','sub_region','address','credit_limit','credit_terms','remarks','st_reg_no','website','fax', 'status']);
+        $roles = DB::table('bank_accounts')->select(['id','bank_type_id','account_code','account_name','account_title','contact_person','telephone','mobile','email','address','remarks','website','fax', 'status']);
 
         return DataTables::of($roles)->make();
     }

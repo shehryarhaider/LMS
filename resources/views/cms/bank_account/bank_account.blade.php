@@ -69,17 +69,16 @@
                   <th>Account Code</th>
                   <th>Account Name</th>
                   <th>Account Title</th>
-                  <th>Account No</th>
-                  <th>Contact Person</th>
                   <th>Bank Name</th>
                   <th>Branch</th>
-                  <th>Address</th>
+                  <th>Contact Person</th>
                   <th>Telephone</th>
                   <th>Mobile</th>
-                  <th>Fax</th>
                   <th>Email</th>
-                  <th>Website</th>
+                  <th>Address</th>
                   <th>Remarks</th>
+                  <th>Website</th>
+                  <th>Fax</th>
                   @if ($count > 0)
                   <th class="no-sort text-center" width="10%">Actions</th>
                   @endif
@@ -127,20 +126,22 @@
     var table = $('#datatable').DataTable({
       processing: true,
       serverSide: true,
-      ajax: '{{ route("bank_account.datatable") }}' b,
+      ajax: '{{ route("bank_account.datatable") }}',
       "columns": [
         { "data": "id", "defaultContent": "" },
         { "data": "bank_type_id", "defaultContent": "" },
         { "data": "account_code", "defaultContent": "" },
         { "data": "account_name", "defaultContent": "" },
         { "data": "account_title", "defaultContent": "" },
+        { "data": "bank_name", "defaultContent": "" },
+        { "data": "branch", "defaultContent": "" },
         { "data": "contact_person", "defaultContent": "" },
         { "data": "telephone", "defaultContent": "" },
         { "data": "mobile", "defaultContent": "" },
         { "data": "email", "defaultContent": "" },
         { "data": "address", "defaultContent": "" },
         { "data": "remarks", "defaultContent": "" },
-         { "data": "website", "defaultContent": "" },
+        { "data": "website", "defaultContent": "" },
         { "data": "fax", "defaultContent": "" },
          @if ($count > 0)
         { "data": "id", "defaultContent": "" },
@@ -154,13 +155,6 @@
         "targets": 0,
         "render": function (data, type, row, meta) {
           return meta.row + 1;
-        },
-      },
-      {
-        "targets": 1,
-        "render": function (data, type, row, meta) {
-          var value = data == 0 ? 'Cash Customer' : 'Credit Customer';
-          return value;
         },
       },
       @if ($count > 0)
